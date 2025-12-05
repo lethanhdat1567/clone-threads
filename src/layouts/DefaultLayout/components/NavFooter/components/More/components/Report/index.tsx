@@ -2,18 +2,24 @@ import ReportPopup from "@/layouts/DefaultLayout/components/NavFooter/components
 import { useState } from "react";
 
 function Report() {
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-    return (
-        <>
-            <div className="p-2" onClick={() => setOpen(true)}>
-                <div className="text-md font-medium w-full flex items-center justify-between rounded-sm p-3 transition cursor-pointer hover:bg-muted-foreground">
-                    Report a problem
-                </div>
-            </div>
-            <ReportPopup open={open} onClose={() => setOpen(false)} />
-        </>
-    );
+  return (
+    <>
+      <div className="p-2" onClick={() => setOpen(true)}>
+        <div className="text-md hover:bg-muted flex w-full cursor-pointer items-center justify-between rounded-sm p-3 font-medium transition">
+          Report a problem
+        </div>
+      </div>
+      <ReportPopup
+        open={open}
+        onClose={() => {
+          console.log("click");
+          setOpen(false);
+        }}
+      />
+    </>
+  );
 }
 
 export default Report;

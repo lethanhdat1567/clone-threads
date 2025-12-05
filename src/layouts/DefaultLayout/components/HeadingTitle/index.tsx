@@ -1,9 +1,9 @@
 function HeadingTitle() {
-    return (
-        <div className="h-(--header-h) flex items-center justify-center">
-            Header
-        </div>
-    );
+  return (
+    <div className="text-md flex h-(--header-h) items-center justify-center font-medium">
+      Header
+    </div>
+  );
 }
 
 export default HeadingTitle;

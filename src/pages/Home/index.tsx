@@ -1,5 +1,20 @@
+import PostCard from "@/components/post";
+
 function Home() {
-    return <div>Home</div>;
+    return (
+        <div>
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+        </div>
+    );
 }
 
 export default Home;

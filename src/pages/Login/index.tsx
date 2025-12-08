@@ -1,4 +1,5 @@
 import FormLogin from "@/pages/Login/FormLogin";
+import { Link } from "react-router-dom";
 
 function Login() {
     return (
@@ -9,8 +10,19 @@ function Login() {
             <div>
                 <FormLogin />
             </div>
-            <p className="text-muted-foreground mt-4 cursor-pointer text-sm">
-                Forgot password?
+            <Link to={"/forgot-password"}>
+                <p className="text-muted-foreground mt-4 cursor-pointer text-sm">
+                    Forgot password?
+                </p>
+            </Link>
+            <p className="text-muted-foreground mt-4 text-sm">
+                Don’t have an account?{" "}
+                <Link
+                    to={"/register"}
+                    className="font-semibold text-black hover:underline"
+                >
+                    Sign up
+                </Link>
             </p>
         </div>
     );

@@ -6,7 +6,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 
-function NameTooltip() {
+function UsernameTooltip() {
     return (
         <Tooltip>
             <TooltipTrigger>
@@ -41,4 +41,4 @@ function NameTooltip() {
     );
 }
 
-export default NameTooltip;
+export default UsernameTooltip;

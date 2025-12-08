@@ -1,9 +1,9 @@
 import Options from "@/components/post/components/Options";
-import NameTooltip from "@/components/post/components/UserName";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import Content from "@/components/post/components/Content";
-import InteractionBar from "@/components/post/components/InteractionBar";
+import InteractionBar from "@/components/InteractionBar";
+import UsernameTooltip from "@/components/UsernameTooltip";
 
 function PostCard() {
     return (
@@ -18,7 +18,7 @@ function PostCard() {
             <div className="col-span-11 flex flex-col">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <NameTooltip />
+                        <UsernameTooltip />
                         <span className="text-muted-foreground text-sm">
                             15h
                         </span>

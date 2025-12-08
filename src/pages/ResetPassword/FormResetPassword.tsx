@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -11,42 +13,48 @@ import {
 } from "@/components/ui/form";
 import AuthInput from "@/components/AuthInput";
 
-const formSchema = z.object({
-    username: z.string().min(2).max(50),
-    password: z.string().min(6),
-});
+// ✅ Schema giống Register
+const formSchema = z
+    .object({
+        password: z.string().min(6, "Password must be at least 6 characters"),
+        confirmPassword: z.string().min(6, "Please confirm your password"),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+    });
 
-function FormLogin() {
-    const form = useForm<z.infer<typeof formSchema>>({
+function FormResetPassword() {
+    const [loading, setLoading] = useState(false);
+
+    const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
             password: "",
+            confirmPassword: "",
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+    async function onSubmit(values: any) {
+        try {
+            setLoading(true);
+
+            // ✅ GỌI API RESET PASSWORD TẠI ĐÂY
+            console.log("New password:", values.password);
+
+            // ví dụ:
+            // await authApi.resetPassword(values);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-                <FormField
-                    control={form.control}
-                    name="username"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <AuthInput
-                                    placeholder="Username, phone or email"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                {/* ✅ New Password */}
                 <FormField
                     control={form.control}
                     name="password"
@@ -54,24 +62,45 @@ function FormLogin() {
                         <FormItem>
                             <FormControl>
                                 <AuthInput
-                                    placeholder="Password"
-                                    {...field}
+                                    placeholder="New password"
                                     type="password"
+                                    {...field}
                                 />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
+
+                {/* ✅ Confirm Password */}
+                <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                                <AuthInput
+                                    placeholder="Confirm password"
+                                    type="password"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                {/* ✅ Button */}
                 <Button
                     type="submit"
+                    disabled={loading}
                     className="w-full rounded-lg py-6 font-bold"
                 >
-                    Log in
+                    {loading ? "Creating..." : "Create new password"}
                 </Button>
             </form>
         </Form>
     );
 }
 
-export default FormLogin;
+export default FormResetPassword;

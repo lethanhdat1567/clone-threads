@@ -16,7 +16,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Spinner } from "@/components/ui/spinner";
-import { authApi } from "@/https/auth";
+import { authService } from "@/service/authService";
 import { loginSchema } from "@/schema/auth/login.schema";
 import { useDispatch } from "react-redux";
 import { setCredentials, setUser } from "@/store/slices/auth";
@@ -44,7 +44,7 @@ export default function LoginPage() {
 
         setLoading(true);
         try {
-            const res = await authApi.login(values);
+            const res = await authService.login(values);
             const access_token = res.data.access_token;
             const refresh_token = res.data.refresh_token;
 
@@ -55,7 +55,7 @@ export default function LoginPage() {
                 }),
             );
 
-            const userData = await authApi.getUserInfo();
+            const userData = await authService.getUserInfo();
             console.log(userData.data);
 
             dispatch(setUser(userData.data));

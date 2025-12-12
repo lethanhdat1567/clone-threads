@@ -16,7 +16,7 @@ import {
     FormControl,
     FormMessage,
 } from "@/components/ui/form";
-import { authApi, type RegisterPayload } from "@/https/auth";
+import { authService, type RegisterPayload } from "@/service/authService";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
 
@@ -44,9 +44,9 @@ export default function RegisterPage() {
 
             try {
                 if (field === "email") {
-                    await authApi.validateEmail({ email: value });
+                    await authService.validateEmail({ email: value });
                 } else if (field === "username") {
-                    await authApi.validateUsername({ username: value });
+                    await authService.validateUsername({ username: value });
                 }
 
                 form.clearErrors(field);
@@ -85,7 +85,7 @@ export default function RegisterPage() {
 
         setLoading(true);
         try {
-            const res = await authApi.register(values);
+            const res = await authService.register(values);
             console.log(res);
             toast.success("Register successfully!");
         } catch (error: any) {

@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import type { Post } from "@/https/post";
+import type { Post } from "@/service/postService";
 
 function Content({ post }: { post: Post }) {
     if (!post) return;

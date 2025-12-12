@@ -1,14 +1,18 @@
+import ShareDropdown from "@/components/InteractionBar/ShareBtn/ShareDropdown";
 import { Button } from "@/components/ui/button";
+import type { Post } from "@/service/postService";
 import { Send } from "lucide-react";
 
-function ShareBtn() {
+function ShareBtn({ post }: { post: Post }) {
     return (
-        <Button
-            variant={"ghost"}
-            className="text-foreground rounded-xl text-sm font-thin"
-        >
-            <Send /> 1.1k
-        </Button>
+        <ShareDropdown post={post}>
+            <Button
+                variant={"ghost"}
+                className="text-foreground rounded-xl text-sm font-thin"
+            >
+                <Send /> {post.reposts_and_quotes_count}
+            </Button>
+        </ShareDropdown>
     );
 }
 

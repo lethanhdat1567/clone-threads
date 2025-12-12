@@ -34,16 +34,49 @@ export interface Post {
     reposts_and_quotes_count: number;
 
     media_urls: string[];
+    is_liked_by_auth: boolean;
+    is_saved_by_auth: boolean;
+    is_reposted_by_auth: boolean;
 
     user: User | null;
     original_post: Post | null;
 }
 
-export const postApi = {
+export const postService = {
     getFeed: async (page = 1, per_page = 10, type = "for_you") => {
         const res = await api.get(`/posts/feed`, {
             params: { page, per_page, type },
         });
+        return res.data;
+    },
+
+    likePost: async (postId: number) => {
+        const res = await api.post(`/posts/${postId}/like`);
+        return res.data;
+    },
+
+    repostPost: async (postId: number) => {
+        const res = await api.post(`/posts/${postId}/repost`);
+        return res.data;
+    },
+
+    quotePost: async (postId: number) => {
+        const res = await api.post(`/posts/${postId}/quote`);
+        return res.data;
+    },
+
+    savePost: async (postId: number) => {
+        const res = await api.post(`/posts/${postId}/save`);
+        return res.data;
+    },
+
+    hidePost: async (postId: number) => {
+        const res = await api.post(`/posts/${postId}/hide`);
+        return res.data;
+    },
+
+    reportPost: async (postId: number) => {
+        const res = await api.post(`/posts/${postId}/report`);
         return res.data;
     },
 };

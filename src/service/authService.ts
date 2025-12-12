@@ -27,7 +27,7 @@ export interface ResetPassword {
     password_confirmation: string;
 }
 
-export const authApi = {
+export const authService = {
     register: async (payload: RegisterPayload) => {
         const res = await api.post("/auth/register", payload);
         return res.data;

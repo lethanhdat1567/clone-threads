@@ -3,22 +3,22 @@ import CommentBtn from "@/components/InteractionBar/CommentBtn/CommentBtn";
 import LikeBtn from "@/components/InteractionBar/LikeBtn";
 import RepostBtn from "@/components/InteractionBar/RepostBtn";
 import ShareBtn from "@/components/InteractionBar/ShareBtn";
-import type { Post } from "@/https/post";
+import type { Post } from "@/service/postService";
 
 function InteractionBar({ post }: { post: Post }) {
     return (
         <div className="mt-3 flex items-center gap-2">
             <DialogLogin>
-                <LikeBtn postCount={post.likes_count} postId={post.id} />
+                <LikeBtn post={post} />
             </DialogLogin>
             <DialogLogin>
-                <CommentBtn />
+                <CommentBtn post={post} />
             </DialogLogin>
             <DialogLogin>
-                <RepostBtn />
+                <RepostBtn post={post} />
             </DialogLogin>
             <DialogLogin>
-                <ShareBtn />
+                <ShareBtn post={post} />
             </DialogLogin>
         </div>
     );

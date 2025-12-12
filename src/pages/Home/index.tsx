@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PostCard from "@/components/post";
-import { postApi } from "@/https/post";
+import { postService } from "@/service/postService";
 
 function Home() {
     const [posts, setPosts] = useState<any[]>([]);
@@ -11,7 +11,7 @@ function Home() {
 
     const loadPosts = async () => {
         try {
-            const res = await postApi.getFeed(page, 10, "for_you");
+            const res = await postService.getFeed(page, 10, "for_you");
 
             const newPosts = res.data;
             const pagination = res.pagination;

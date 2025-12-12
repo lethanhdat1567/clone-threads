@@ -14,7 +14,7 @@ import {
 import AuthInput from "@/components/AuthInput";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
-import { authApi } from "@/https/auth";
+import { authService } from "@/service/authService";
 
 // Schema validation (English)
 const formSchema = z
@@ -59,7 +59,7 @@ function FormResetPassword() {
 
             setToken(tokenParam);
 
-            const res = await authApi.validateToken(tokenParam);
+            const res = await authService.validateToken(tokenParam);
             console.log(res);
             if (res.data.valid) {
                 setTokenValid(true);
@@ -85,7 +85,7 @@ function FormResetPassword() {
         try {
             setLoading(true);
 
-            await authApi.resetPassword({
+            await authService.resetPassword({
                 token: token,
                 email: email,
                 password: values.password,

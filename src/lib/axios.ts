@@ -2,7 +2,7 @@ import axios from "axios";
 import { envConfig } from "@/config/env";
 import { store } from "@/store";
 import { setCredentials, logout } from "@/store/slices/auth";
-import { authApi } from "@/https/auth";
+import { authService } from "@/service/authService";
 
 const api = axios.create({
     baseURL: `${envConfig.apiUrl}/api`,
@@ -68,7 +68,7 @@ api.interceptors.response.use(
             isRefreshing = true;
 
             try {
-                const res = await authApi.refreshToken({
+                const res = await authService.refreshToken({
                     refresh_token: refreshToken,
                 });
 

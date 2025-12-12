@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button";
+import type { Post } from "@/service/postService";
 import { MessageCircle } from "lucide-react";
 
-function CommentBtn() {
+function CommentBtn({ post }: { post: Post }) {
     return (
         <Button
             variant={"ghost"}
             className="text-foreground rounded-xl text-sm font-thin"
         >
-            <MessageCircle /> 1.1k
+            <MessageCircle /> {post.replies_count}
         </Button>
     );
 }

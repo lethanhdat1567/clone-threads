@@ -12,7 +12,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import AuthInput from "@/components/AuthInput";
-import { authApi } from "@/https/auth";
+import { authService } from "@/service/authService";
 
 // ✅ Schema chỉ còn EMAIL
 const formSchema = z.object({
@@ -34,7 +34,7 @@ function FormForgotPassword() {
         try {
             setLoading(true);
 
-            await authApi.forgotPassword({ email: values.email });
+            await authService.forgotPassword({ email: values.email });
 
             localStorage.setItem("reset_password", values.email);
 

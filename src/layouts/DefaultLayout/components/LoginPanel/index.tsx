@@ -1,4 +1,5 @@
 import { Instagram } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function LoginPanel() {
     return (
@@ -16,9 +17,11 @@ function LoginPanel() {
                         Continue with Instagram
                     </span>
                 </div>
-                <p className="text-md text-muted-foreground cursor-pointer">
-                    Log in with username instead
-                </p>
+                <Link to={"/login"}>
+                    <p className="text-md text-muted-foreground cursor-pointer">
+                        Log in with username instead
+                    </p>
+                </Link>
             </div>
         </div>
     );

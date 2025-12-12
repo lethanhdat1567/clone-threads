@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Login() {
     return (
-        <div className="text-center">
+        <div className="w-[400px] text-center">
             <h2 className="text-md mb-4 font-bold">
                 Log in with your Instagram account
             </h2>

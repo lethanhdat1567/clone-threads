@@ -12,6 +12,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import AuthInput from "@/components/AuthInput";
+import { authApi } from "@/https/auth";
 
 // ✅ Schema chỉ còn EMAIL
 const formSchema = z.object({
@@ -33,14 +34,23 @@ function FormForgotPassword() {
         try {
             setLoading(true);
 
-            // ✅ GỌI API TẠI ĐÂY
-            // await authApi.forgotPassword(values.email);
+            await authApi.forgotPassword({ email: values.email });
 
-            console.log("Reset email sent to:", values.email);
+            localStorage.setItem("reset_password", values.email);
 
             setSuccess(true);
-        } catch (error) {
-            console.error(error);
+        } catch (error: any) {
+            const errors = error?.response?.data?.errors;
+            if (errors) {
+                console.log(errors);
+
+                Object.keys(errors).forEach((key) => {
+                    form.setError(key as any, {
+                        type: "server",
+                        message: errors[key][0],
+                    });
+                });
+            }
         } finally {
             setLoading(false);
         }
@@ -49,45 +59,45 @@ function FormForgotPassword() {
     return (
         <>
             {/* ✅ Success message */}
-            {success && (
+            {success ? (
                 <div className="mb-4 rounded-lg bg-blue-50 p-3 text-sm text-blue-600">
                     The password reset link has been sent to your email.
                 </div>
-            )}
-
-            <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-4"
-                >
-                    {/* ✅ Email */}
-                    <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <AuthInput
-                                        placeholder="Email address"
-                                        type="email"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    {/* ✅ Button */}
-                    <Button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full rounded-lg py-6 font-bold"
+            ) : (
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-4"
                     >
-                        {loading ? "Sending..." : "Reset password"}
-                    </Button>
-                </form>
-            </Form>
+                        {/* ✅ Email */}
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <AuthInput
+                                            placeholder="Email address"
+                                            type="email"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* ✅ Button */}
+                        <Button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full rounded-lg py-6 font-bold"
+                        >
+                            {loading ? "Sending..." : "Reset password"}
+                        </Button>
+                    </form>
+                </Form>
+            )}
         </>
     );
 }

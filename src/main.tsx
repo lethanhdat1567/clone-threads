@@ -9,11 +9,17 @@ import "@fontsource/inter/600.css";
 import "@fontsource/inter/700.css";
 import "@/styles/global.scss";
 import "./App.css";
+import { Toaster } from "sonner";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 createRoot(document.getElementById("root")!).render(
-    <StrictMode>
+    // <StrictMode>
+    <Provider store={store}>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <RouterProvider router={router} />
+            <Toaster />
         </ThemeProvider>
-    </StrictMode>,
+    </Provider>,
+    // </StrictMode>,
 );

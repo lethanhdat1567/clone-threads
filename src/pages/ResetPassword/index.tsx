@@ -13,7 +13,7 @@ function ResetPassword() {
             </p>
 
             {/* ✅ Form */}
-            <div>
+            <div className="w-[400px]">
                 <FormResetPassword />
             </div>
 

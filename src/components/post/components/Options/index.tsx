@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Ellipsis, Link } from "lucide-react";
 import {
     DropdownMenu,
@@ -6,11 +5,12 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 function Options() {
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
                 <Button
                     className="rounded-full"
                     variant={"ghost"}

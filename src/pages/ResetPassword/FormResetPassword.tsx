@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,8 +12,11 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import AuthInput from "@/components/AuthInput";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
+import { authApi } from "@/https/auth";
 
-// ✅ Schema giống Register
+// Schema validation (English)
 const formSchema = z
     .object({
         password: z.string().min(6, "Password must be at least 6 characters"),
@@ -24,10 +27,18 @@ const formSchema = z
         path: ["confirmPassword"],
     });
 
-function FormResetPassword() {
-    const [loading, setLoading] = useState(false);
+type FormValues = z.infer<typeof formSchema>;
 
-    const form = useForm({
+function FormResetPassword() {
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(false);
+    const [validating, setValidating] = useState(true);
+    const [tokenValid, setTokenValid] = useState(false);
+    const [token, setToken] = useState<string | null>(null);
+
+    const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             password: "",
@@ -35,26 +46,85 @@ function FormResetPassword() {
         },
     });
 
-    async function onSubmit(values: any) {
+    // Validate token when page loads
+    useEffect(() => {
+        const validateToken = async () => {
+            const tokenParam = searchParams.get("token");
+
+            if (!tokenParam) {
+                toast.error("Invalid reset link");
+                setValidating(false);
+                return;
+            }
+
+            setToken(tokenParam);
+
+            const res = await authApi.validateToken(tokenParam);
+            console.log(res);
+            if (res.data.valid) {
+                setTokenValid(true);
+            } else {
+                setTokenValid(false);
+            }
+            setValidating(false);
+        };
+
+        validateToken();
+    }, [searchParams]);
+
+    async function onSubmit(values: FormValues) {
+        const email = localStorage.getItem("reset_password");
+
+        if (!email) return;
+
+        if (!token) {
+            toast.error("Invalid token");
+            return;
+        }
+
         try {
             setLoading(true);
 
-            // ✅ GỌI API RESET PASSWORD TẠI ĐÂY
-            console.log("New password:", values.password);
+            await authApi.resetPassword({
+                token: token,
+                email: email,
+                password: values.password,
+                password_confirmation: values.confirmPassword,
+            });
 
-            // ví dụ:
-            // await authApi.resetPassword(values);
-        } catch (error) {
-            console.error(error);
+            toast.success("Your password has been successfully reset!");
+
+            navigate("/login", {
+                state: {
+                    message:
+                        "Password reset successful. Please log in with your new password.",
+                },
+            });
+        } catch (errors: any) {
+            Object.keys(errors).forEach((key) => {
+                form.setError(key as any, {
+                    type: "server",
+                    message: errors[key][0],
+                });
+            });
         } finally {
             setLoading(false);
         }
     }
 
+    // Token validating UI
+    if (validating) return <p>Validating your reset link...</p>;
+
+    // Invalid token UI
+    if (!tokenValid)
+        return (
+            <p className="text-red-500">This link is invalid or has expired.</p>
+        );
+
+    // Valid token → show reset form
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                {/* ✅ New Password */}
                 <FormField
                     control={form.control}
                     name="password"
@@ -72,7 +142,6 @@ function FormResetPassword() {
                     )}
                 />
 
-                {/* ✅ Confirm Password */}
                 <FormField
                     control={form.control}
                     name="confirmPassword"
@@ -80,7 +149,7 @@ function FormResetPassword() {
                         <FormItem>
                             <FormControl>
                                 <AuthInput
-                                    placeholder="Confirm password"
+                                    placeholder="Confirm new password"
                                     type="password"
                                     {...field}
                                 />
@@ -90,13 +159,12 @@ function FormResetPassword() {
                     )}
                 />
 
-                {/* ✅ Button */}
                 <Button
                     type="submit"
                     disabled={loading}
                     className="w-full rounded-lg py-6 font-bold"
                 >
-                    {loading ? "Creating..." : "Create new password"}
+                    {loading ? "Processing..." : "Reset Password"}
                 </Button>
             </form>
         </Form>

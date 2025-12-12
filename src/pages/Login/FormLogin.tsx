@@ -1,77 +1,149 @@
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+"use client";
+
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+
+import AuthInput from "@/components/AuthInput";
 import { Button } from "@/components/ui/button";
 import {
     Form,
-    FormControl,
     FormField,
     FormItem,
+    FormControl,
     FormMessage,
 } from "@/components/ui/form";
-import AuthInput from "@/components/AuthInput";
+import { Spinner } from "@/components/ui/spinner";
+import { authApi } from "@/https/auth";
+import { loginSchema } from "@/schema/auth/login.schema";
+import { useDispatch } from "react-redux";
+import { setCredentials, setUser } from "@/store/slices/auth";
+import { useNavigate } from "react-router-dom";
 
-const formSchema = z.object({
-    username: z.string().min(2).max(50),
-    password: z.string().min(6),
-});
+type LoginPayload = z.infer<typeof loginSchema>;
 
-function FormLogin() {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+export default function LoginPage() {
+    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    // Form Init
+    const form = useForm<LoginPayload>({
+        resolver: zodResolver(loginSchema),
         defaultValues: {
-            username: "",
+            login: "",
             password: "",
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+    // Submit
+    async function onSubmit(values: LoginPayload) {
+        if (loading) return;
+
+        setLoading(true);
+        try {
+            const res = await authApi.login(values);
+            const access_token = res.data.access_token;
+            const refresh_token = res.data.refresh_token;
+
+            dispatch(
+                setCredentials({
+                    accessToken: access_token,
+                    refreshToken: refresh_token,
+                }),
+            );
+
+            const userData = await authApi.getUserInfo();
+            console.log(userData.data);
+
+            dispatch(setUser(userData.data));
+            navigate("/");
+            toast.success("Đăng nhập thành công!");
+        } catch (error: any) {
+            toast.error("Đăng nhập thất bại!");
+
+            if (!error?.response?.data?.success) {
+                const errors = error?.response?.data?.errors;
+
+                if (errors) {
+                    const keyMap: Record<string, string> = {
+                        login: "username",
+                    };
+
+                    Object.keys(errors).forEach((key) => {
+                        const formKey = keyMap[key] || key;
+
+                        form.setError(formKey as any, {
+                            type: "server",
+                            message: errors[key][0],
+                        });
+                    });
+                } else {
+                    form.setError("password", {
+                        type: "server",
+                        message: "Tên đăng nhập hoặc mật khẩu không chính xác!",
+                    });
+                }
+            }
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-                <FormField
-                    control={form.control}
-                    name="username"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <AuthInput
-                                    placeholder="Username, phone or email"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <AuthInput
-                                    placeholder="Password"
-                                    {...field}
-                                    type="password"
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <Button
-                    type="submit"
-                    className="w-full rounded-lg py-6 font-bold"
+        <div className="mx-auto max-w-md space-y-6">
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-4"
                 >
-                    Log in
-                </Button>
-            </form>
-        </Form>
+                    {/* Username */}
+                    <FormField
+                        control={form.control}
+                        name="login"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <AuthInput
+                                        placeholder="Username, phone or email"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    {/* Password */}
+                    <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <AuthInput
+                                        placeholder="Mật khẩu"
+                                        type="password"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    {/* Submit */}
+                    <Button
+                        type="submit"
+                        className="w-full py-6 text-base font-bold"
+                        disabled={loading}
+                    >
+                        {loading ? <Spinner /> : "Đăng nhập"}
+                    </Button>
+                </form>
+            </Form>
+        </div>
     );
 }
-
-export default FormLogin;

@@ -5,7 +5,7 @@ import NavList from "@/layouts/DefaultLayout/components/Sidebar/NavList";
 function Sidebar() {
     return (
         <div className="bg-background fixed flex h-screen w-(--sidebar-w) flex-col items-center justify-between">
-            <div className="pt-[15px]">
+            <div className="pt-3.75">
                 <Logo />
             </div>
             <NavList />

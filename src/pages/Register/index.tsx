@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Register() {
     return (
-        <div className="w-[400px] text-center">
+        <div className="w-100 text-center">
             <h2 className="text-md mb-4 font-bold">Register a new account</h2>
 
             <div>

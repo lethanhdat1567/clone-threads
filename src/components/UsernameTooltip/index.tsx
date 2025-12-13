@@ -3,8 +3,8 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import Avatar from "@/components/Avatar";
 
 type Props = {
     username?: string | null;
@@ -31,12 +31,8 @@ function UsernameTooltip({ username, bio, avatar, name }: Props) {
                         <h2 className="mb-1 text-xl font-bold">{username}</h2>
                         <p className="text-[16px]">{name}</p>
                     </div>
-                    <Avatar className="h-16 w-16">
-                        <AvatarImage
-                            src={avatar || "https://github.com/shadcn.png"}
-                        />
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
+
+                    <Avatar src={avatar} className="h-16 w-16" />
                 </div>
                 <p className="w-full text-[16px]">{bio}</p>
                 <span className="text-muted-foreground mt-3 mb-5 block text-[14px]">

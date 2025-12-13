@@ -20,37 +20,15 @@ import { Button } from "@/components/ui/button";
 type OptionsProps = {
     postUserId: number;
     currentUserId?: number;
-
-    onSave: () => void;
-    onHide: () => void;
-    onMute: () => void;
-    onRestrict: () => void;
-    onBlock: () => void;
-    onReport: () => void;
-    onCopyLink: () => void;
-    onEdit: () => void;
-    onDelete: () => void;
 };
 
-export default function Options({
-    postUserId,
-    currentUserId,
-    onSave,
-    onHide,
-    onMute,
-    onRestrict,
-    onBlock,
-    onReport,
-    onCopyLink,
-    onEdit,
-    onDelete,
-}: OptionsProps) {
+export default function Options({ postUserId, currentUserId }: OptionsProps) {
     const isOwner = currentUserId === postUserId;
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button className="rounded-full" variant="ghost" size="icon-lg">
+                <Button className="rounded-full" variant="ghost" size="icon-sm">
                     <Ellipsis />
                 </Button>
             </DropdownMenuTrigger>
@@ -62,70 +40,40 @@ export default function Options({
             >
                 {currentUserId ? (
                     <>
-                        <DropdownMenuItem
-                            className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium"
-                            onClick={onSave}
-                        >
+                        <DropdownMenuItem className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium">
                             Save/Unsave <Bookmark />
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium"
-                            onClick={onHide}
-                        >
+                        <DropdownMenuItem className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium">
                             Not interested <EyeOff />
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium"
-                            onClick={onMute}
-                        >
+                        <DropdownMenuItem className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium">
                             Mute <BellOff />
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium"
-                            onClick={onRestrict}
-                        >
+                        <DropdownMenuItem className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium">
                             Restrict <Shield />
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium text-red-500"
-                            onClick={onBlock}
-                        >
+                        <DropdownMenuItem className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium text-red-500">
                             Block <Trash2 />
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium text-red-500"
-                            onClick={onReport}
-                        >
+                        <DropdownMenuItem className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium text-red-500">
                             Report <Flag />
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium"
-                            onClick={onCopyLink}
-                        >
+                        <DropdownMenuItem className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium">
                             Copy link <Link />
                         </DropdownMenuItem>
                         {isOwner && (
                             <>
-                                <DropdownMenuItem
-                                    className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium"
-                                    onClick={onEdit}
-                                >
+                                <DropdownMenuItem className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium">
                                     Edit <Edit2 />
                                 </DropdownMenuItem>
-                                <DropdownMenuItem
-                                    className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium text-red-500"
-                                    onClick={onDelete}
-                                >
+                                <DropdownMenuItem className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium text-red-500">
                                     Delete <Trash2 />
                                 </DropdownMenuItem>
                             </>
                         )}
                     </>
                 ) : (
-                    <DropdownMenuItem
-                        className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium"
-                        onClick={onCopyLink}
-                    >
+                    <DropdownMenuItem className="flex cursor-pointer items-center justify-between rounded-lg p-2 py-4 text-sm font-medium">
                         Copy link <Link />
                     </DropdownMenuItem>
                 )}

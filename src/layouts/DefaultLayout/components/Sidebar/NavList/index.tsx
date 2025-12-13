@@ -1,4 +1,4 @@
-import PostModal from "@/components/PostModal";
+import PostModal from "@/components/post/components/PostModal";
 import { navData } from "@/layouts/DefaultLayout/components/Sidebar/NavList/data";
 import NavItem from "@/layouts/DefaultLayout/components/Sidebar/NavList/NavItem";
 import { Plus } from "lucide-react";

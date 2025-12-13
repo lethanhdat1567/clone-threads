@@ -22,6 +22,7 @@ import { Spinner } from "@/components/ui/spinner";
 
 export default function RegisterPage() {
     const [loading, setLoading] = useState(false);
+    const [registered, setRegistered] = useState(false);
 
     // Form Init
     const form = useForm({
@@ -40,7 +41,7 @@ export default function RegisterPage() {
 
     const debouncedValidate = debounce(
         async (field: "username" | "email", value: string) => {
-            if (!value) return; // Không validate khi input rỗng
+            if (!value) return;
 
             try {
                 if (field === "email") {
@@ -85,8 +86,8 @@ export default function RegisterPage() {
 
         setLoading(true);
         try {
-            const res = await authService.register(values);
-            console.log(res);
+            await authService.register(values);
+            setRegistered(true);
             toast.success("Register successfully!");
         } catch (error: any) {
             toast.error("Error!");
@@ -110,6 +111,13 @@ export default function RegisterPage() {
 
     return (
         <div className="mx-auto max-w-md space-y-6">
+            {registered && (
+                <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+                    We’ve sent a verification link to your email address.
+                    <br />
+                    Please check your inbox to verify your account.
+                </div>
+            )}
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -123,7 +131,7 @@ export default function RegisterPage() {
                             <FormItem>
                                 <FormControl>
                                     <AuthInput
-                                        placeholder="Tên hiển thị"
+                                        placeholder="Display name"
                                         {...field}
                                     />
                                 </FormControl>
@@ -140,7 +148,7 @@ export default function RegisterPage() {
                             <FormItem>
                                 <FormControl>
                                     <AuthInput
-                                        placeholder="Email"
+                                        placeholder="Email address"
                                         type="email"
                                         {...field}
                                     />
@@ -158,7 +166,7 @@ export default function RegisterPage() {
                             <FormItem>
                                 <FormControl>
                                     <AuthInput
-                                        placeholder="Mật khẩu"
+                                        placeholder="Password"
                                         type="password"
                                         {...field}
                                     />
@@ -176,7 +184,7 @@ export default function RegisterPage() {
                             <FormItem>
                                 <FormControl>
                                     <AuthInput
-                                        placeholder="Xác nhận mật khẩu"
+                                        placeholder="Confirm password"
                                         type="password"
                                         {...field}
                                     />

@@ -60,7 +60,6 @@ function FormResetPassword() {
             setToken(tokenParam);
 
             const res = await authService.validateToken(tokenParam);
-            console.log(res);
             if (res.data.valid) {
                 setTokenValid(true);
             } else {
@@ -91,8 +90,6 @@ function FormResetPassword() {
                 password: values.password,
                 password_confirmation: values.confirmPassword,
             });
-
-            toast.success("Your password has been successfully reset!");
 
             navigate("/login", {
                 state: {

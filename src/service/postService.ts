@@ -50,6 +50,21 @@ export const postService = {
         return res.data;
     },
 
+    getSinglePost: async (postId: number) => {
+        const res = await api.get(`/posts/${postId}`);
+        return res.data;
+    },
+
+    createPost: async (data: any) => {
+        const res = await api.post(`/posts`, data);
+        return res.data;
+    },
+
+    createReply: async (id: number, data: any) => {
+        const res = await api.post(`/posts/${id}/reply`, data);
+        return res.data;
+    },
+
     likePost: async (postId: number) => {
         const res = await api.post(`/posts/${postId}/like`);
         return res.data;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -20,7 +20,7 @@ import { authService } from "@/service/authService";
 import { loginSchema } from "@/schema/auth/login.schema";
 import { useDispatch } from "react-redux";
 import { setCredentials, setUser } from "@/store/slices/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type LoginPayload = z.infer<typeof loginSchema>;
 
@@ -28,6 +28,8 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
+    const [verified, setVerified] = useState(false);
 
     // Form Init
     const form = useForm<LoginPayload>({
@@ -37,6 +39,18 @@ export default function LoginPage() {
             password: "",
         },
     });
+
+    useEffect(() => {
+        if (location.state?.message) {
+            toast.success(location.state.message);
+        }
+    }, [location.state]);
+
+    useEffect(() => {
+        if (location.state?.verified) {
+            setVerified(true);
+        }
+    }, [location.state]);
 
     // Submit
     async function onSubmit(values: LoginPayload) {
@@ -94,6 +108,14 @@ export default function LoginPage() {
 
     return (
         <div className="mx-auto max-w-md space-y-6">
+            {verified && (
+                <div className="rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700">
+                    Your account has been successfully verified.
+                    <br />
+                    Please log in to continue.
+                </div>
+            )}
+
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}

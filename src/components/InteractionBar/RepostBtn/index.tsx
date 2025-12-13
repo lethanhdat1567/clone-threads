@@ -30,7 +30,7 @@ function RepostBtn({ post }: { post: Post }) {
     }
 
     return (
-        <RepostDropdown onRepost={handleRepost}>
+        <RepostDropdown onRepost={handleRepost} post={post}>
             <Button variant="ghost" className="rounded-xl text-sm font-thin">
                 <Repeat color={reposted ? "blue" : "black"} /> {count}
             </Button>

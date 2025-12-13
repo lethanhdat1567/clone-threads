@@ -10,6 +10,9 @@ import ResetPassword from "@/pages/ResetPassword";
 import Search from "@/pages/Search";
 import Activity from "@/pages/Activity";
 import Profile from "@/pages/Profile";
+import Embed from "@/pages/Embed";
+import EmbedLayout from "@/layouts/EmbedLayout";
+import VerifyEmail from "@/pages/VerifyEmail";
 
 export const router = createBrowserRouter([
     // DefaultLayout
@@ -31,6 +34,15 @@ export const router = createBrowserRouter([
             { path: "/register", element: <Register /> },
             { path: "/forgot-password", element: <ForgotPassword /> },
             { path: "/reset-password", element: <ResetPassword /> },
+            { path: "/verify-email", element: <VerifyEmail /> },
+        ],
+    },
+
+    {
+        path: "/",
+        element: <EmbedLayout />,
+        children: [
+            { path: "/:username/post/:postId/embed", element: <Embed /> },
         ],
     },
     // Not found

@@ -29,14 +29,16 @@ function PostCard({ post, isReply }: PostCardProps) {
         >
             {/* Avatar */}
             <div
-                className={`col-span-1 ${isReply && "flex flex-col items-center justify-start"}`}
+                className={`col-span-1 ${isReply ? "flex flex-col items-center justify-start" : ""}`}
             >
                 <AvatarModal
                     className={`z-20 mt-2 ${isReply ? "mt-0 h-8 w-8" : "h-10 w-10"}`}
                     post={post}
                 />
             </div>
-            <div className={`col-span-11 ${isReply && "ml-2"} flex flex-col`}>
+            <div
+                className={`col-span-11 ${isReply && "ml-2"} ml-4 flex flex-col sm:ml-0`}
+            >
                 <div className="flex items-center justify-between">
                     <div className="z-20 flex items-center gap-2">
                         <UsernameTooltip
@@ -54,6 +56,7 @@ function PostCard({ post, isReply }: PostCardProps) {
                             <Options
                                 postUserId={post.user_id}
                                 currentUserId={user?.id}
+                                postId={post.id}
                             />
                         </div>
                     )}

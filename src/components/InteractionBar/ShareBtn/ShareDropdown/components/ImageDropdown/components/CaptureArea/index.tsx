@@ -26,7 +26,7 @@ const CaptureArea = forwardRef<HTMLDivElement, CaptureAreaProps>(
                 ref={ref}
                 className={cn(
                     "relative overflow-hidden rounded-2xl",
-                    selectedTheme === "light" && "bg-white text-black",
+                    selectedTheme === "light" && "text-foreground bg-white",
                     selectedTheme === "dark" && "bg-black text-white",
                 )}
             >
@@ -40,7 +40,11 @@ const CaptureArea = forwardRef<HTMLDivElement, CaptureAreaProps>(
                         )}
                     >
                         <div className="w-full max-w-xl">
-                            <PostView post={post} showMetrics={showMetrics} />
+                            <PostView
+                                selectedTheme={selectedTheme}
+                                post={post}
+                                showMetrics={showMetrics}
+                            />
                         </div>
                     </div>
                 </div>

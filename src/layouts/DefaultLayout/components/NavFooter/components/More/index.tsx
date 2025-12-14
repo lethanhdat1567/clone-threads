@@ -20,7 +20,7 @@ function More() {
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger>
-                <li className="group text-muted-foreground hover:text-foreground relative flex h-[60px] w-[60px] cursor-pointer items-center justify-center">
+                <li className="group text-muted-foreground hover:text-foreground relative flex h-10 w-10 cursor-pointer items-center justify-center md:h-15 md:w-15">
                     <TextAlignStart />
                 </li>
             </PopoverTrigger>

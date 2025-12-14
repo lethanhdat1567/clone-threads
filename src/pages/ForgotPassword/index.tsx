@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function ForgotPassword() {
     return (
-        <div className="text-center">
+        <div className="px-4 text-center">
             <h2 className="text-md mb-2 font-bold">Forgot your password?</h2>
 
             <p className="text-muted-foreground mb-4 text-sm">
@@ -18,7 +18,7 @@ function ForgotPassword() {
                 Back to{" "}
                 <Link
                     to={"/login"}
-                    className="font-semibold text-black hover:underline"
+                    className="text-foreground font-semibold hover:underline"
                 >
                     Log in
                 </Link>

@@ -1,5 +1,6 @@
 import Avatar from "@/components/Avatar";
 import InteractionBar from "@/components/InteractionBar";
+import ViewOnThreads from "@/components/ViewOnThreads";
 import { postService, type Post } from "@/service/postService";
 import { formatTimeToHour } from "@/utils/timer";
 import { useEffect, useState } from "react";
@@ -8,7 +9,7 @@ import { useParams } from "react-router-dom";
 function Embed() {
     const [post, setPost] = useState<Post>();
 
-    const { username, postId } = useParams();
+    const { postId } = useParams();
 
     useEffect(() => {
         if (!postId) return;
@@ -49,6 +50,7 @@ function Embed() {
             <div>
                 <InteractionBar post={post} />
             </div>
+            <ViewOnThreads to={`/${post.user?.username}/post/${post.id}`} />
         </div>
     );
 }

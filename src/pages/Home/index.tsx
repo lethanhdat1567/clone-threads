@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PostCard from "@/components/post";
 import { postService } from "@/service/postService";
+import { Spinner } from "@/components/ui/spinner";
 
 function Home() {
     const [posts, setPosts] = useState<any[]>([]);
@@ -40,7 +41,11 @@ function Home() {
             next={loadPosts}
             scrollableTarget="scrollableDiv"
             hasMore={hasMore}
-            loader={<p className="py-4 text-center">Loading...</p>}
+            loader={
+                <p className="flex items-center justify-center gap-2 py-4">
+                    <Spinner /> Loading...
+                </p>
+            }
         >
             <div className="space-y-4">
                 {posts.map((post) => (

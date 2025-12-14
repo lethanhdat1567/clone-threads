@@ -31,13 +31,13 @@ function RepostDropdown({ children, onRepost, post }: Props) {
                         onClick={onRepost}
                         className="flex cursor-pointer items-center justify-between rounded-lg py-4 text-sm font-semibold"
                     >
-                        Repost <Repeat color="black" />
+                        Repost <Repeat color="var(--foreground)" />
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => setOpen(true)}
                         className="flex cursor-pointer items-center justify-between rounded-lg py-4 text-sm font-semibold"
                     >
-                        Quote <MessageSquareQuote color="black" />
+                        Quote <MessageSquareQuote color="var(--foreground)" />
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

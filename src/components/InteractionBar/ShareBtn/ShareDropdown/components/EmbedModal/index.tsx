@@ -25,32 +25,30 @@ function EmbedModal({ isOpen, setIsOpen, post, postUrl }: EmbedModalProps) {
             `https://www.threads.net/@${post.user?.username}/post/${post.id}`;
 
         return `<blockquote class="text-post-media"
-        data-text-post-permalink="${url}"
-        data-text-post-version="0"
-        id="ig-tp-${post.id}"
-        style="
-            background:#FFF;
-            border:1px solid #00000026;
-            border-radius:16px;
-            max-width:540px;
-            min-width:270px;
-            width:100%;
-            margin:1px;
-            padding:0;
-        ">
-        <a href="${url}" target="_blank"></a>
-    </blockquote>
-    <script async src="https://www.threads.net/embed.js"></script>`;
+    data-text-post-permalink="${url}"
+    data-text-post-version="0"
+    id="ig-tp-${post.id}"
+    style="
+        background:#fff;
+        border:1px solid #00000026;
+        border-radius:16px;
+        max-width:540px;
+        min-width:270px;
+        width:100%;
+        margin:1px;
+        padding:0;
+    ">
+    <a href="${url}" target="_blank"></a>
+</blockquote>
+<script async src="https://www.threads.net/embed.js"></script>`;
     }, [post.id, post.user?.username, postUrl]);
 
-    // Handle copy
     const handleCopy = async () => {
         try {
             await navigator.clipboard.writeText(embedCode);
             toast.success("Embed code copied!");
-        } catch (error: any) {
-            console.log(error);
-
+        } catch (error) {
+            console.error(error);
             toast.error("Failed to copy embed code");
         }
     };
@@ -58,8 +56,8 @@ function EmbedModal({ isOpen, setIsOpen, post, postUrl }: EmbedModalProps) {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent
-                className="max-w-xl min-w-[37vw] gap-0 rounded-3xl p-0"
                 showCloseButton={false}
+                className="bg-background text-foreground border-border max-w-xl min-w-[37vw] gap-0 rounded-3xl border p-0"
             >
                 <VisuallyHidden asChild>
                     <DialogTitle>Embed post</DialogTitle>
@@ -72,7 +70,9 @@ function EmbedModal({ isOpen, setIsOpen, post, postUrl }: EmbedModalProps) {
                 </VisuallyHidden>
 
                 {/* Post Preview */}
-                <PostView post={post} />
+                <div className="border-border border-b">
+                    <PostView post={post} />
+                </div>
 
                 {/* Embed code */}
                 <EmbedSection embedCode={embedCode} handleCopy={handleCopy} />

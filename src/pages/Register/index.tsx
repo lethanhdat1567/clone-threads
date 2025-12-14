@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Register() {
     return (
-        <div className="w-100 text-center">
+        <div className="w-screen px-4 text-center sm:w-100 sm:px-0">
             <h2 className="text-md mb-4 font-bold">Register a new account</h2>
 
             <div>
@@ -14,7 +14,7 @@ function Register() {
                 Already have an account?{" "}
                 <Link
                     to={"/login"}
-                    className="font-semibold text-black hover:underline"
+                    className="text-foreground font-semibold hover:underline"
                 >
                     Log in
                 </Link>

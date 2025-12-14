@@ -28,7 +28,7 @@ function NavItem({ nav }: NavItemProps) {
 
     return (
         <>
-            <li key={nav.title}>
+            <li key={nav.title} className="flex-1">
                 <Link
                     to={nav.href}
                     onClick={handleClick}
@@ -36,7 +36,7 @@ function NavItem({ nav }: NavItemProps) {
                         isActive
                             ? "bg-accent text-foreground"
                             : "text-muted-foreground"
-                    } group hover:text-foreground relative z-10 flex h-15 w-15 cursor-pointer items-center justify-center rounded-lg`}
+                    } group hover:text-foreground relative z-10 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg md:h-15 md:w-15`}
                 >
                     <span className="absolute z-50"> {nav.icon}</span>
                     <div

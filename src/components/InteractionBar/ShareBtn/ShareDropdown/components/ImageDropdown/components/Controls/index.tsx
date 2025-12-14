@@ -30,7 +30,7 @@ function Controls({
     onCopy,
 }: ControlsProps) {
     return (
-        <div className="-mx-6 -mb-6 flex items-center justify-between rounded-b-2xl bg-white px-6 py-3 shadow-sm">
+        <div className="bg-background text-foreground -mx-6 -mb-6 flex items-center justify-between rounded-b-2xl px-6 py-3 shadow-sm">
             <div className="flex items-center gap-2">
                 <Checkbox
                     checked={showMetrics}

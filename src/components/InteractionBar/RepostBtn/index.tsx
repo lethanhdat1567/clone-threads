@@ -32,7 +32,7 @@ function RepostBtn({ post, unsetCount }: { post: Post; unsetCount?: boolean }) {
     return (
         <RepostDropdown onRepost={handleRepost} post={post}>
             <Button variant="ghost" className="rounded-xl text-sm font-thin">
-                <Repeat color={reposted ? "blue" : "black"} />{" "}
+                <Repeat color={reposted ? "blue" : "var(--foreground)"} />{" "}
                 {!unsetCount && count}
             </Button>
         </RepostDropdown>

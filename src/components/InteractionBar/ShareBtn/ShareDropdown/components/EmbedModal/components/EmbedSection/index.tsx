@@ -8,7 +8,7 @@ type Props = {
 function EmbedSection({ embedCode, handleCopy }: Props) {
     return (
         <div className="border-t p-6 pt-5">
-            <div className="flex items-center overflow-x-auto rounded-xl bg-neutral-100 p-4 font-mono text-sm text-black">
+            <div className="text-foreground bg-muted flex items-center overflow-x-auto rounded-xl p-4 font-mono text-sm">
                 {/* Embed preview (short) */}
                 <code className="block flex-1 break-all">
                     {embedCode.length > 80

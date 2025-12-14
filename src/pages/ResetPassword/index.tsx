@@ -13,7 +13,7 @@ function ResetPassword() {
             </p>
 
             {/* ✅ Form */}
-            <div className="w-[400px]">
+            <div className="w-screen px-4 sm:w-100 sm:px-0">
                 <FormResetPassword />
             </div>
 
@@ -22,7 +22,7 @@ function ResetPassword() {
                 Back to{" "}
                 <Link
                     to="/login"
-                    className="font-semibold text-black hover:underline"
+                    className="text-foreground font-semibold hover:underline"
                 >
                     Log in
                 </Link>

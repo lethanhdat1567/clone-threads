@@ -89,14 +89,12 @@ function CopyAsImageModal({ isOpen, setIsOpen, post }: Props) {
         // Auto mode: gradient background
         if (cropMode === "auto") {
             return selectedTheme === "dark"
-                ? "bg-[#1e1e1e] border-[#2a2a2a]"
-                : "bg-[#f5f5f5] border-gray-200";
+                ? "bg-[#1e1e1e] "
+                : "bg-[#f5f5f5]  text-black";
         }
 
         // Square/Instagram mode: neutral background
-        return selectedTheme === "dark"
-            ? "bg-[#0a0a0a] border-[#1a1a1a]"
-            : "bg-white border-gray-100";
+        return selectedTheme === "dark" ? "bg-[#0a0a0a]" : "bg-white ";
     };
 
     return (

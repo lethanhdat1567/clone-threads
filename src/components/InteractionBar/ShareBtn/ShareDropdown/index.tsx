@@ -39,19 +39,19 @@ function ShareDropdown({ children, post }: Props) {
                         onClick={handleCopy}
                         className="flex cursor-pointer items-center justify-between rounded-lg py-4 text-sm font-semibold"
                     >
-                        Copy link <Link color="black" />
+                        Copy link <Link color="var(--foreground)" />
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => setIsImageDropdown(true)}
                         className="flex cursor-pointer items-center justify-between rounded-lg py-4 text-sm font-semibold"
                     >
-                        Copy as image <Images color="black" />
+                        Copy as image <Images color="var(--foreground)" />
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => setIsEmbedOpen(true)}
                         className="flex cursor-pointer items-center justify-between rounded-lg py-4 text-sm font-semibold"
                     >
-                        Get embed code <Braces color="black" />
+                        Get embed code <Braces color="var(--foreground)" />
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

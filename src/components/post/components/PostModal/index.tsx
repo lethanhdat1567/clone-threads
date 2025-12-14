@@ -86,7 +86,7 @@ function PostModal({
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger>{children}</DialogTrigger>
+            <DialogTrigger asChild>{children}</DialogTrigger>
             <DialogContent
                 showCloseButton={false}
                 className="min-w-[40vw] gap-0 p-0"

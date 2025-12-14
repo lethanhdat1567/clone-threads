@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Logo() {
     return (
         <Link to={"/"}>
-            <div className="w-[34px] hover:scale-105 transition cursor-pointer">
+            <div className="w-8.5 cursor-pointer transition hover:scale-105">
                 {logoIcon}
             </div>
         </Link>

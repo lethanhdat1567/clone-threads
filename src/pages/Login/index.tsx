@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Login() {
     return (
-        <div className="w-[400px] text-center">
+        <div className="w-screen px-4 text-center sm:w-100 sm:px-0">
             <h2 className="text-md mb-4 font-bold">
                 Log in with your Instagram account
             </h2>
@@ -19,7 +19,7 @@ function Login() {
                 Don’t have an account?{" "}
                 <Link
                     to={"/register"}
-                    className="font-semibold text-black hover:underline"
+                    className="text-foreground font-semibold hover:underline"
                 >
                     Sign up
                 </Link>

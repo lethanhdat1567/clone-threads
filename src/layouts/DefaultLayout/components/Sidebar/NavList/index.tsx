@@ -13,36 +13,34 @@ function NavList() {
     const user = useSelector((state: any) => state.auth.user);
 
     return (
-        <ul className="flex flex-col gap-1">
-            {/* Render 2 item đầu */}
+        <ul className="flex w-full items-center justify-between gap-1 md:flex-col md:justify-start md:gap-2">
+            {/* 2 item đầu */}
             {firstTwo.map((nav) => (
                 <NavItem nav={nav} key={nav.title} />
             ))}
 
-            {/* Button ở giữa */}
-            {user ? (
-                <li>
+            {/* Button + ở giữa */}
+            <li className="flex-1 md:my-4">
+                {user ? (
                     <PostModal
                         isCreatePost
                         open={openPostModal}
                         setOpen={setOpenPostModal}
                     >
-                        <button className="bg-secondary text-muted-foreground hover:text-foreground flex h-12 w-15 cursor-pointer items-center justify-center rounded-lg">
+                        <button className="bg-secondary text-muted-foreground hover:text-foreground flex h-12 w-full cursor-pointer items-center justify-center rounded-lg md:w-12">
                             <Plus size={25} />
                         </button>
                     </PostModal>
-                </li>
-            ) : (
-                <li>
+                ) : (
                     <DialogLogin>
-                        <button className="bg-secondary text-muted-foreground hover:text-foreground flex h-12 w-15 cursor-pointer items-center justify-center rounded-lg">
+                        <button className="bg-secondary text-muted-foreground hover:text-foreground flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg">
                             <Plus size={25} />
                         </button>
                     </DialogLogin>
-                </li>
-            )}
+                )}
+            </li>
 
-            {/* Render các item còn lại */}
+            {/* Các item còn lại */}
             {rest.map((nav) => (
                 <NavItem nav={nav} key={nav.title} />
             ))}

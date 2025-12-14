@@ -1,7 +1,6 @@
-import images from "@/assets/images";
 import Avatar from "@/components/Avatar";
 import InteractionBar from "@/components/InteractionBar";
-import { Button } from "@/components/ui/button";
+import ViewOnThreads from "@/components/ViewOnThreads";
 import type { Post } from "@/service/postService";
 import { formatTimeToHour } from "@/utils/timer";
 
@@ -31,12 +30,7 @@ function PostView({ post }: { post: Post }) {
                 <div className="pointer-events-none">
                     <InteractionBar post={post} />
                 </div>
-                <div className="flex items-end">
-                    <Button variant={"secondary"} className="ml-auto text-xs">
-                        View on Threads{" "}
-                        <img src={images.threads} className="h-4 w-4" />
-                    </Button>
-                </div>
+                <ViewOnThreads to={`/${post.user?.username}/post/${post.id}`} />
             </div>
         </div>
     );

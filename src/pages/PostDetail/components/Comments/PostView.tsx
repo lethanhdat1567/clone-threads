@@ -3,7 +3,7 @@ import UsernameTooltip from "@/components/UsernameTooltip";
 import type { Post } from "@/service/postService";
 import { formatTimeToHour } from "@/utils/timer";
 
-function PostHorizontal({ post }: { post: Post }) {
+function PostView({ post }: { post: Post }) {
     return (
         <div className="grid grid-cols-12">
             <div className="col-span-1 flex flex-col items-center justify-start">
@@ -23,11 +23,14 @@ function PostHorizontal({ post }: { post: Post }) {
                     </span>
                 </div>
                 <div className="w-full text-sm">
-                    <p>{post.content}</p>
+                    <p>
+                        Các bạn sinh viên y cẩn thận nha. Thật sự thấy rất tội
+                        cho bạn nữ kia luôn đấy Các bạn ơi đừng để vụ này chìm
+                    </p>
                 </div>
             </div>
         </div>
     );
 }
 
-export default PostHorizontal;
+export default PostView;

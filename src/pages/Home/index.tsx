@@ -10,6 +10,8 @@ function Home() {
     const [hasMore, setHasMore] = useState(true);
 
     const loadPosts = async () => {
+        console.log("fetch");
+
         try {
             const res = await postService.getFeed(page, 10, "for_you");
 
@@ -36,6 +38,7 @@ function Home() {
         <InfiniteScroll
             dataLength={posts.length}
             next={loadPosts}
+            scrollableTarget="scrollableDiv"
             hasMore={hasMore}
             loader={<p className="py-4 text-center">Loading...</p>}
         >

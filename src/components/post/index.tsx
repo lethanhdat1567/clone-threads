@@ -1,5 +1,4 @@
 // components/post/PostCard.tsx
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import Options from "@/components/post/components/Options";
 import Content from "@/components/post/components/Content";
@@ -7,7 +6,8 @@ import InteractionBar from "@/components/InteractionBar";
 import UsernameTooltip from "@/components/UsernameTooltip";
 import type { Post } from "@/service/postService";
 import { formatTimeToHour } from "@/utils/timer";
-import Avatar from "@/components/Avatar";
+import { useNavigate } from "react-router-dom";
+import AvatarModal from "@/pages/PostDetail/components/PostView/AvatarModal";
 
 type PostCardProps = {
     post: Post;
@@ -17,46 +17,58 @@ type PostCardProps = {
 
 function PostCard({ post, isReply }: PostCardProps) {
     const user = useSelector((state: any) => state.auth.user);
-    const [localPost, setLocalPost] = useState<Post>(post);
+    const navigate = useNavigate();
+
+    function handleNavigate() {
+        navigate(`/${post.user?.username}/post/${post.id}`);
+    }
 
     return (
         <div
-            className={`grid grid-cols-12 ${!isReply && "border-b"} p-4 ${isReply ? "pb-0 pl-4" : ""}`}
+            className={`relative z-10 grid grid-cols-12 ${!isReply && "border-b"} p-4 ${isReply ? "pb-0 pl-4" : ""}`}
         >
             {/* Avatar */}
             <div
                 className={`col-span-1 ${isReply && "flex flex-col items-center justify-start"}`}
             >
-                <Avatar
-                    src={localPost.user?.avatar_url}
-                    className={`mt-2 ${isReply ? "mt-0 h-8 w-8" : "h-10 w-10"}`}
+                <AvatarModal
+                    className={`z-20 mt-2 ${isReply ? "mt-0 h-8 w-8" : "h-10 w-10"}`}
+                    post={post}
                 />
             </div>
             <div className={`col-span-11 ${isReply && "ml-2"} flex flex-col`}>
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
+                    <div className="z-20 flex items-center gap-2">
                         <UsernameTooltip
-                            avatar={localPost.user?.avatar_url}
-                            bio={localPost.user?.bio}
-                            name={localPost.user?.name}
-                            username={localPost.user?.username}
+                            avatar={post.user?.avatar_url}
+                            bio={post.user?.bio}
+                            name={post.user?.name}
+                            username={post.user?.username}
                         />
                         <span className="text-muted-foreground text-sm">
-                            {formatTimeToHour(localPost.created_at)}
+                            {formatTimeToHour(post.created_at)}
                         </span>
                     </div>
                     {!isReply && (
-                        <div>
+                        <div className="z-20">
                             <Options
-                                postUserId={localPost.user_id}
+                                postUserId={post.user_id}
                                 currentUserId={user?.id}
                             />
                         </div>
                     )}
                 </div>
-                <Content post={localPost} />
-                {!isReply && <InteractionBar post={localPost} />}
+                <Content post={post} />
+                {!isReply && (
+                    <div className="z-20">
+                        <InteractionBar post={post} />
+                    </div>
+                )}
             </div>
+            <div
+                className="isnet-0 absolute z-0 h-full w-full cursor-pointer bg-transparent"
+                onClick={handleNavigate}
+            ></div>
         </div>
     );
 }

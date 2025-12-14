@@ -38,6 +38,11 @@ export const authService = {
         return res.data;
     },
 
+    logout: async () => {
+        const res = await api.post("/auth/logout");
+        return res.data;
+    },
+
     validateUsername: async (payload: { username: string }) => {
         const res = await api.post("/auth/validate/username", payload);
         return res.data;

@@ -101,7 +101,9 @@ function PostModal({
                     >
                         Cancel
                     </button>
-                    <h2 className="text-md font-semibold">New thread</h2>
+                    <h2 className="text-md font-semibold">
+                        {isReply ? "Reply" : "New thread"}
+                    </h2>
                     <CircleEllipsis />
                 </div>
                 {isReply && (
@@ -111,7 +113,10 @@ function PostModal({
                 )}
                 <div className="grid grid-cols-12 gap-6 p-6 pb-2">
                     <div className="col-span-1 flex flex-col items-center justify-center">
-                        <Avatar className="h-9 w-9" />
+                        <Avatar
+                            className="h-9 w-9"
+                            src={post?.user?.avatar_url}
+                        />
                         <div className="mt-4 h-full w-0.75 flex-1 bg-[#ccc]"></div>
                     </div>
                     <div className="col-span-11">

@@ -13,6 +13,7 @@ import Profile from "@/pages/Profile";
 import Embed from "@/pages/Embed";
 import EmbedLayout from "@/layouts/EmbedLayout";
 import VerifyEmail from "@/pages/VerifyEmail";
+import PostDetail from "@/pages/PostDetail";
 
 export const router = createBrowserRouter([
     // DefaultLayout
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
             { path: "/search", element: <Search /> },
             { path: "/activity", element: <Activity /> },
             { path: "/profile", element: <Profile /> },
+            { path: "/:username/post/:postId", element: <PostDetail /> },
         ],
     },
     {

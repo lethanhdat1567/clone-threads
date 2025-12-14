@@ -146,7 +146,7 @@ export default function LoginPage() {
                             <FormItem>
                                 <FormControl>
                                     <AuthInput
-                                        placeholder="Mật khẩu"
+                                        placeholder="Password"
                                         type="password"
                                         {...field}
                                     />
@@ -162,7 +162,7 @@ export default function LoginPage() {
                         className="w-full py-6 text-base font-bold"
                         disabled={loading}
                     >
-                        {loading ? <Spinner /> : "Đăng nhập"}
+                        {loading ? <Spinner /> : "Login"}
                     </Button>
                 </form>
             </Form>

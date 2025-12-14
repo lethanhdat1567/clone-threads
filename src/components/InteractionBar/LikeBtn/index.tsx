@@ -17,7 +17,6 @@ function LikeBtn({ post, unsetCount }: Props) {
 
     const handleClick = async () => {
         if (!post) return;
-
         const prevLiked = liked;
         const prevCount = count;
 

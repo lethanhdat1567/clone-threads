@@ -63,6 +63,16 @@ export const postService = {
         return res.data;
     },
 
+    getReplies: async (postId: number) => {
+        const res = await api.get(`/posts/${postId}/replies`);
+        return res.data;
+    },
+
+    getSpendingReplies: async (postId: number) => {
+        const res = await api.get(`/posts/${postId}/pending-replies`);
+        return res.data;
+    },
+
     createPost: async (data: CreatePostPayload) => {
         const res = await api.post(`/posts`, data);
         return res.data;

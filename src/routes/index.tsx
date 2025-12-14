@@ -1,4 +1,3 @@
-import { createBrowserRouter } from "react-router-dom";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/NotFound";
 import DefaultLayout from "@/layouts/DefaultLayout";
@@ -14,42 +13,48 @@ import Embed from "@/pages/Embed";
 import EmbedLayout from "@/layouts/EmbedLayout";
 import VerifyEmail from "@/pages/VerifyEmail";
 import PostDetail from "@/pages/PostDetail";
+import { createHashRouter } from "react-router-dom";
 
-export const router = createBrowserRouter([
-    // DefaultLayout
-    {
-        path: "/",
-        element: <DefaultLayout />,
-        children: [
-            { index: true, element: <Home /> },
-            { path: "/search", element: <Search /> },
-            { path: "/activity", element: <Activity /> },
-            { path: "/profile", element: <Profile /> },
-            { path: "/:username/post/:postId", element: <PostDetail /> },
-        ],
-    },
-    {
-        path: "/",
-        element: <AuthLayout />,
-        children: [
-            { path: "/login", element: <Login /> },
-            { path: "/register", element: <Register /> },
-            { path: "/forgot-password", element: <ForgotPassword /> },
-            { path: "/reset-password", element: <ResetPassword /> },
-            { path: "/verify-email", element: <VerifyEmail /> },
-        ],
-    },
+export const router = createHashRouter(
+    [
+        // DefaultLayout
+        {
+            path: "/",
+            element: <DefaultLayout />,
+            children: [
+                { index: true, element: <Home /> },
+                { path: "/search", element: <Search /> },
+                { path: "/activity", element: <Activity /> },
+                { path: "/profile", element: <Profile /> },
+                { path: "/:username/post/:postId", element: <PostDetail /> },
+            ],
+        },
+        {
+            path: "/",
+            element: <AuthLayout />,
+            children: [
+                { path: "/login", element: <Login /> },
+                { path: "/register", element: <Register /> },
+                { path: "/forgot-password", element: <ForgotPassword /> },
+                { path: "/reset-password", element: <ResetPassword /> },
+                { path: "/verify-email", element: <VerifyEmail /> },
+            ],
+        },
 
+        {
+            path: "/",
+            element: <EmbedLayout />,
+            children: [
+                { path: "/:username/post/:postId/embed", element: <Embed /> },
+            ],
+        },
+        // Not found
+        {
+            path: "*",
+            element: <NotFound />,
+        },
+    ],
     {
-        path: "/",
-        element: <EmbedLayout />,
-        children: [
-            { path: "/:username/post/:postId/embed", element: <Embed /> },
-        ],
+        basename: "/threads-clone",
     },
-    // Not found
-    {
-        path: "*",
-        element: <NotFound />,
-    },
-]);
+);

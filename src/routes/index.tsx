@@ -55,6 +55,6 @@ export const router = createHashRouter(
         },
     ],
     {
-        basename: "/threads-clone",
+        basename: "/clone-threads",
     },
 );

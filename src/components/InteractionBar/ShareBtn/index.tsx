@@ -3,14 +3,14 @@ import { Button } from "@/components/ui/button";
 import type { Post } from "@/service/postService";
 import { Send } from "lucide-react";
 
-function ShareBtn({ post }: { post: Post }) {
+function ShareBtn({ post, unsetCount }: { post: Post; unsetCount?: boolean }) {
     return (
         <ShareDropdown post={post}>
             <Button
                 variant={"ghost"}
                 className="text-foreground rounded-xl text-sm font-thin"
             >
-                <Send /> {post.reposts_and_quotes_count}
+                <Send /> {!unsetCount && post.reposts_and_quotes_count}
             </Button>
         </ShareDropdown>
     );

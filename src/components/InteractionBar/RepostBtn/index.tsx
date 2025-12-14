@@ -7,7 +7,7 @@ import { postService, type Post } from "@/service/postService";
 import { Repeat } from "lucide-react";
 import { toast } from "sonner";
 
-function RepostBtn({ post }: { post: Post }) {
+function RepostBtn({ post, unsetCount }: { post: Post; unsetCount?: boolean }) {
     const [reposted, setReposted] = useState(post.is_reposted_by_auth);
     const [count, setCount] = useState(post.reposts_and_quotes_count);
 
@@ -32,7 +32,8 @@ function RepostBtn({ post }: { post: Post }) {
     return (
         <RepostDropdown onRepost={handleRepost} post={post}>
             <Button variant="ghost" className="rounded-xl text-sm font-thin">
-                <Repeat color={reposted ? "blue" : "black"} /> {count}
+                <Repeat color={reposted ? "blue" : "black"} />{" "}
+                {!unsetCount && count}
             </Button>
         </RepostDropdown>
     );

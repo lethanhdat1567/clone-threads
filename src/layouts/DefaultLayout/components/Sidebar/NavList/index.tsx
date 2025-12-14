@@ -2,10 +2,12 @@ import PostModal from "@/components/post/components/PostModal";
 import { navData } from "@/layouts/DefaultLayout/components/Sidebar/NavList/data";
 import NavItem from "@/layouts/DefaultLayout/components/Sidebar/NavList/NavItem";
 import { Plus } from "lucide-react";
+import { useState } from "react";
 
 function NavList() {
     const firstTwo = navData.slice(0, 2);
     const rest = navData.slice(2);
+    const [openPostModal, setOpenPostModal] = useState(false);
 
     return (
         <ul className="flex flex-col gap-1">
@@ -16,7 +18,11 @@ function NavList() {
 
             {/* Button ở giữa */}
             <li>
-                <PostModal>
+                <PostModal
+                    isCreatePost
+                    open={openPostModal}
+                    setOpen={setOpenPostModal}
+                >
                     <button className="bg-secondary text-muted-foreground hover:text-foreground flex h-12 w-15 cursor-pointer items-center justify-center rounded-lg">
                         <Plus size={25} />
                     </button>

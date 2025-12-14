@@ -42,6 +42,14 @@ export interface Post {
     original_post: Post | null;
 }
 
+export type CreatePostPayload = {
+    content: string;
+    reply_permission: "everyone" | "followers" | "following" | "mentioned";
+    requires_reply_approval?: boolean;
+    parent_id?: number | null;
+    topic_name?: string;
+};
+
 export const postService = {
     getFeed: async (page = 1, per_page = 10, type = "for_you") => {
         const res = await api.get(`/posts/feed`, {
@@ -55,7 +63,7 @@ export const postService = {
         return res.data;
     },
 
-    createPost: async (data: any) => {
+    createPost: async (data: CreatePostPayload) => {
         const res = await api.post(`/posts`, data);
         return res.data;
     },

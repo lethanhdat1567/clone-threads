@@ -12,6 +12,7 @@ import Avatar from "@/components/Avatar";
 type PostCardProps = {
     post: Post;
     isReply?: boolean;
+    className?: string;
 };
 
 function PostCard({ post, isReply }: PostCardProps) {

@@ -1,28 +1,21 @@
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+
 import {
     Dialog,
     DialogContent,
     DialogDescription,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 
-// import threadsLogo from "@/assets/images/threads-logo.svg";
-// import downloadIcon from "@/assets/icons/download-icon.svg";
 import { cn } from "@/lib/utils";
 import type { Post } from "@/service/postService";
 import { captureImage } from "@/components/InteractionBar/ShareBtn/ShareDropdown/components/ImageDropdown/helpers";
-import PostCard from "@/components/post";
+
+import Colors from "@/components/InteractionBar/ShareBtn/ShareDropdown/components/ImageDropdown/components/Colors";
+import CaptureArea from "@/components/InteractionBar/ShareBtn/ShareDropdown/components/ImageDropdown/components/CaptureArea";
+import Controls from "@/components/InteractionBar/ShareBtn/ShareDropdown/components/ImageDropdown/components/Controls";
 
 type Props = {
     isOpen: boolean;
@@ -30,11 +23,13 @@ type Props = {
     post: Post;
 };
 
+export type CropMode = "auto" | "square" | "instagram";
+
 function CopyAsImageModal({ isOpen, setIsOpen, post }: Props) {
     const captureRef = useRef(null);
     const [selectedTheme, setSelectedTheme] = useState("light");
     const [showMetrics, setShowMetrics] = useState(true);
-    const [cropMode, setCropMode] = useState("auto");
+    const [cropMode, setCropMode] = useState<CropMode>("auto");
 
     // Handler cho Copy button
     const handleCopyImage = async () => {
@@ -65,7 +60,7 @@ function CopyAsImageModal({ isOpen, setIsOpen, post }: Props) {
             const link = document.createElement("a");
 
             // Tạo tên file
-            const date = new Date().toISOString().split("T")[0]; // 2025-11-25
+            const date = new Date().toISOString().split("T")[0];
             const username = post.user?.username || "user";
             link.download = `threads-${username}-${date}.png`;
 
@@ -89,13 +84,29 @@ function CopyAsImageModal({ isOpen, setIsOpen, post }: Props) {
         return null;
     }
 
+    // Determine background color based on cropMode and theme
+    const getDialogBackground = () => {
+        // Auto mode: gradient background
+        if (cropMode === "auto") {
+            return selectedTheme === "dark"
+                ? "bg-[#1e1e1e] border-[#2a2a2a]"
+                : "bg-[#f5f5f5] border-gray-200";
+        }
+
+        // Square/Instagram mode: neutral background
+        return selectedTheme === "dark"
+            ? "bg-[#0a0a0a] border-[#1a1a1a]"
+            : "bg-white border-gray-100";
+    };
+
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent
                 className={cn(
-                    "max-w-150! rounded-2xl bg-[#f5f5f5] p-6",
-                    selectedTheme === "dark" && "border-[#1e1e1e] bg-[#1e1e1e]",
+                    "max-w-150 rounded-2xl p-6 transition-colors duration-200",
+                    getDialogBackground(),
                 )}
+                showCloseButton={false}
             >
                 <VisuallyHidden asChild>
                     <DialogTitle>Copy post as image</DialogTitle>
@@ -107,115 +118,31 @@ function CopyAsImageModal({ isOpen, setIsOpen, post }: Props) {
                 </VisuallyHidden>
 
                 {/* CAPTURE AREA */}
-                <div
+                <CaptureArea
                     ref={captureRef}
-                    className={cn(
-                        "relative rounded-xl p-2 shadow-sm",
-                        selectedTheme === "light" && "bg-white text-black",
-                        selectedTheme === "dark" &&
-                            "bg-black text-white [&_img]:brightness-60 [&_img]:invert",
-                    )}
-                >
-                    <PostCard post={post} />
-
-                    {/* Threads logo */}
-                    <div className="absolute right-4 bottom-4">
-                        <img
-                            src={""}
-                            alt="logo"
-                            className={cn(
-                                "w-6",
-                                selectedTheme === "dark" && "invert",
-                            )}
-                        />
-                    </div>
-                </div>
+                    post={post}
+                    selectedTheme={selectedTheme}
+                    showMetrics={showMetrics}
+                    cropMode={cropMode}
+                />
 
                 {/* CONTROLS */}
                 <div className="space-y-4">
                     {/* Theme Selector */}
-                    <div className="flex gap-3">
-                        <button
-                            onClick={() => setSelectedTheme("light")}
-                            className={cn(
-                                "h-5 w-5 rounded-full border-2 bg-white",
-                                selectedTheme === "light"
-                                    ? "border-blue-600"
-                                    : "border-transparent",
-                            )}
-                        />
-                        <button
-                            onClick={() => setSelectedTheme("dark")}
-                            className={cn(
-                                "h-5 w-5 rounded-full border-2 bg-black",
-                                selectedTheme === "dark"
-                                    ? "border-blue-600"
-                                    : "border-transparent",
-                            )}
-                        />
-                    </div>
+                    <Colors
+                        selectedTheme={selectedTheme}
+                        setSelectedTheme={setSelectedTheme}
+                    />
 
                     {/* Bottom Controls */}
-                    <div className="-mx-6 -mb-6 flex items-center justify-between rounded-b-2xl bg-white px-6 py-3 shadow-sm">
-                        <div className="flex items-center gap-2">
-                            <Checkbox
-                                checked={showMetrics}
-                                onCheckedChange={setShowMetrics}
-                                id="show-metrics"
-                                className="h-5 w-5 rounded-full"
-                            />
-                            <label
-                                htmlFor="show-metrics"
-                                className="cursor-pointer text-sm"
-                            >
-                                Show metrics
-                            </label>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                            <Select
-                                value={cropMode}
-                                onValueChange={setCropMode}
-                            >
-                                <SelectTrigger className="h-8">
-                                    <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="auto">Auto</SelectItem>
-                                    <SelectItem value="square">
-                                        Square
-                                    </SelectItem>
-                                    <SelectItem value="instagram">
-                                        Instagram post
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                            {/*  Download button với onClick handler */}
-                            <Button
-                                onClick={handleDownloadImage}
-                                variant="outline"
-                                size="icon"
-                                className="h-8"
-                            >
-                                <img
-                                    src={""}
-                                    alt="download icon"
-                                    className="w-5"
-                                />
-                            </Button>
-
-                            {/* Copy button */}
-                            <Button
-                                onClick={handleCopyImage}
-                                className="h-8 bg-black text-white"
-                            >
-                                Copy
-                            </Button>
-                        </div>
-                    </div>
+                    <Controls
+                        showMetrics={showMetrics}
+                        setShowMetrics={setShowMetrics}
+                        cropMode={cropMode}
+                        setCropMode={setCropMode}
+                        onDownload={handleDownloadImage}
+                        onCopy={handleCopyImage}
+                    />
                 </div>
             </DialogContent>
         </Dialog>

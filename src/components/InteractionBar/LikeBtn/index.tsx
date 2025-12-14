@@ -8,10 +8,10 @@ import { toast } from "sonner";
 
 type Props = {
     post?: Post;
-    postCount?: number | null;
+    unsetCount?: boolean;
 };
 
-function LikeBtn({ post }: Props) {
+function LikeBtn({ post, unsetCount }: Props) {
     const [liked, setLiked] = useState(post?.is_liked_by_auth || false);
     const [count, setCount] = useState(post?.likes_count);
 
@@ -40,7 +40,8 @@ function LikeBtn({ post }: Props) {
             className={`rounded-xl text-sm font-thin ${liked ? "text-red-500" : "text-foreground"}`}
             onClick={handleClick}
         >
-            <Heart fill={liked ? "currentColor" : "none"} /> {count}
+            <Heart fill={liked ? "currentColor" : "none"} />{" "}
+            {!unsetCount && count}
         </Button>
     );
 }

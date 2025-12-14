@@ -1,3 +1,4 @@
+import type { ReplyPermissionType } from "@/components/post/components/PostModal";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,13 +10,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 
-import { SlidersVertical } from "lucide-react";
-
-export type ReplyPermissionType =
-    | "everyone"
-    | "followers"
-    | "following"
-    | "mentioned";
+import { Check, SlidersVertical } from "lucide-react";
 
 export type PermissionOption = {
     value: ReplyPermissionType;
@@ -54,18 +49,27 @@ function Options({
                 <DropdownMenuLabel className="text-muted-foreground py-4 text-sm">
                     Who can reply and quote
                 </DropdownMenuLabel>
-                {REPLY_PERMISSION_OPTIONS.map((option) => (
-                    <DropdownMenuItem
-                        key={option.value}
-                        onClick={() => setPermission(option.value)}
-                        className={cn(
-                            "cursor-pointer py-3 text-sm font-semibold",
-                            permission === option.value ? "bg-accent" : "",
-                        )}
-                    >
-                        {option.label}
-                    </DropdownMenuItem>
-                ))}
+                {REPLY_PERMISSION_OPTIONS.map((option) => {
+                    const isActive = permission === option.value;
+
+                    return (
+                        <DropdownMenuItem
+                            key={option.value}
+                            onClick={() => setPermission(option.value)}
+                            className={cn(
+                                "flex cursor-pointer items-center py-3 text-sm font-semibold",
+                                isActive && "bg-accent",
+                            )}
+                        >
+                            <span className="flex-1">{option.label}</span>
+
+                            {isActive && (
+                                <Check size={16} className="text-primary" />
+                            )}
+                        </DropdownMenuItem>
+                    );
+                })}
+
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                     <span className="flex-1 cursor-pointer py-3 text-sm font-semibold">
@@ -74,6 +78,7 @@ function Options({
                     <Switch
                         checked={reviewReplies}
                         onCheckedChange={setReviewReplies}
+                        className="cursor-pointer"
                     />
                 </DropdownMenuItem>
             </DropdownMenuContent>

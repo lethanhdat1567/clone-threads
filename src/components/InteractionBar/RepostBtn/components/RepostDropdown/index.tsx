@@ -41,7 +41,7 @@ function RepostDropdown({ children, onRepost, post }: Props) {
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-            <PostModal open={open} setOpen={setOpen} post={post} />
+            <PostModal open={open} setOpen={setOpen} post={post} isQuote />
         </>
     );
 }

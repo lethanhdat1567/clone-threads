@@ -10,6 +10,7 @@ import copyToClipboard from "copy-to-clipboard";
 import { toast } from "sonner";
 import ImageDropdown from "@/components/InteractionBar/ShareBtn/ShareDropdown/components/ImageDropdown";
 import { useState } from "react";
+import EmbedModal from "@/components/InteractionBar/ShareBtn/ShareDropdown/components/EmbedModal";
 
 type Props = {
     children: React.ReactNode;
@@ -18,6 +19,7 @@ type Props = {
 
 function ShareDropdown({ children, post }: Props) {
     const [isImageDropdown, setIsImageDropdown] = useState(false);
+    const [isEmbedOpen, setIsEmbedOpen] = useState(false);
 
     const handleCopy = () => {
         copyToClipboard("#");
@@ -45,7 +47,10 @@ function ShareDropdown({ children, post }: Props) {
                     >
                         Copy as image <Images color="black" />
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex cursor-pointer items-center justify-between rounded-lg py-4 text-sm font-semibold">
+                    <DropdownMenuItem
+                        onClick={() => setIsEmbedOpen(true)}
+                        className="flex cursor-pointer items-center justify-between rounded-lg py-4 text-sm font-semibold"
+                    >
                         Get embed code <Braces color="black" />
                     </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -54,6 +59,12 @@ function ShareDropdown({ children, post }: Props) {
             <ImageDropdown
                 isOpen={isImageDropdown}
                 setIsOpen={setIsImageDropdown}
+                post={post}
+            />
+
+            <EmbedModal
+                isOpen={isEmbedOpen}
+                setIsOpen={setIsEmbedOpen}
                 post={post}
             />
         </>

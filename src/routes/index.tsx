@@ -15,46 +15,41 @@ import VerifyEmail from "@/pages/VerifyEmail";
 import PostDetail from "@/pages/PostDetail";
 import { createHashRouter } from "react-router-dom";
 
-export const router = createHashRouter(
-    [
-        // DefaultLayout
-        {
-            path: "/",
-            element: <DefaultLayout />,
-            children: [
-                { index: true, element: <Home /> },
-                { path: "/search", element: <Search /> },
-                { path: "/activity", element: <Activity /> },
-                { path: "/profile", element: <Profile /> },
-                { path: "/:username/post/:postId", element: <PostDetail /> },
-            ],
-        },
-        {
-            path: "/",
-            element: <AuthLayout />,
-            children: [
-                { path: "/login", element: <Login /> },
-                { path: "/register", element: <Register /> },
-                { path: "/forgot-password", element: <ForgotPassword /> },
-                { path: "/reset-password", element: <ResetPassword /> },
-                { path: "/verify-email", element: <VerifyEmail /> },
-            ],
-        },
-
-        {
-            path: "/",
-            element: <EmbedLayout />,
-            children: [
-                { path: "/:username/post/:postId/embed", element: <Embed /> },
-            ],
-        },
-        // Not found
-        {
-            path: "*",
-            element: <NotFound />,
-        },
-    ],
+export const router = createHashRouter([
     {
-        basename: "/clone-threads",
+        path: "/",
+        element: <DefaultLayout />,
+        children: [
+            { index: true, element: <Home /> },
+            { path: "search", element: <Search /> },
+            { path: "activity", element: <Activity /> },
+            { path: ":username/post/:postId", element: <PostDetail /> },
+            { path: "profile", element: <Profile /> },
+        ],
     },
-);
+
+    {
+        path: "/",
+        element: <AuthLayout />,
+        children: [
+            { path: "login", element: <Login /> },
+            { path: "register", element: <Register /> },
+            { path: "forgot-password", element: <ForgotPassword /> },
+            { path: "reset-password", element: <ResetPassword /> },
+            { path: "verify-email", element: <VerifyEmail /> },
+        ],
+    },
+
+    {
+        path: "/",
+        element: <EmbedLayout />,
+        children: [
+            { path: ":username/post/:postId/embed", element: <Embed /> },
+        ],
+    },
+
+    {
+        path: "*",
+        element: <NotFound />,
+    },
+]);
